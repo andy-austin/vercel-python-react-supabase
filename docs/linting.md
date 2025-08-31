@@ -28,8 +28,6 @@ pnpm lint:fix
 
 # Package-specific linting
 cd apps/web && pnpm lint
-cd packages/shared && pnpm lint
-cd packages/db && pnpm lint
 ```
 
 ### Rules Highlights
@@ -43,8 +41,8 @@ cd packages/db && pnpm lint
 
 ### Tools Used
 
-- **flake8**: Code linting and style checking
-- **black**: Code formatting (88 character line limit)
+- **flake8**: Code linting and style checking (120 character line limit, black compatible)
+- **black**: Code formatting (88 character line limit)  
 - **isort**: Import sorting
 - **mypy**: Static type checking
 
@@ -52,7 +50,7 @@ cd packages/db && pnpm lint
 
 - **`pyproject.toml`**: Unified configuration for black, isort, and flake8
 - **`.pre-commit-config.yaml`**: Pre-commit hook configurations
-- All tools configured for black compatibility and 88-character line length
+- All tools configured for black compatibility (black: 88 chars, flake8: 120 chars)
 
 ### Commands
 
@@ -95,8 +93,8 @@ pnpm typecheck    # TypeScript type checking
 
 #### flake8
 
-- Max line length: 88 (black compatible)
-- Extends ignore: ["E203", "W503"] for black compatibility
+- Max line length: 120 (black compatible)
+- Extends ignore: ["E203", "W503"] for black compatibility  
 - Excludes: [".git", "__pycache__", ".venv", "build", "dist"]
 
 ## IDE Integration

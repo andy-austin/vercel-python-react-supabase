@@ -52,8 +52,10 @@ This starts:
 
 ### Working with Types
 
-- Database types: Configure Supabase client directly in `apps/web`
-- GraphQL types: Define Strawberry types in `apps/api/schema.py`
+- Database types: 
+  - Frontend: Generate Supabase types to `apps/web/types/supabase.ts`
+  - Backend: Define SQLAlchemy models in `apps/api/models/`
+- GraphQL types: Define Strawberry types in `apps/api/types/`
 - Frontend types: Add TypeScript types directly in relevant components
 
 ### Testing

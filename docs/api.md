@@ -2,7 +2,7 @@
 
 ## GraphQL API
 
-The FastAPI GraphQL API provides data access through Strawberry GraphQL schema.
+The FastAPI GraphQL API provides data access through Strawberry GraphQL schema with modular resolvers and types.
 
 ### Endpoint
 
@@ -15,29 +15,71 @@ The FastAPI GraphQL API provides data access through Strawberry GraphQL schema.
 
 ```python
 @strawberry.type
-class User:
-    id: str
-    email: str
-    name: str | None = None
+class Note:
+    id: int
+    title: str
+    content: str | None
+    is_published: bool
+    created_at: datetime
+    updated_at: datetime
+
+@strawberry.type  
+class HealthStatus:
+    status: str
+    timestamp: str
+    api: ServiceStatus
+    database: DatabaseStatus
 ```
 
 #### Queries
 
 ```graphql
 type Query {
-  hello: String!
-  users: [User!]!
+  # Health checks
+  health: HealthStatus!
+  
+  # Notes
+  notes: [Note!]!
+  note(id: Int!): Note
 }
 ```
 
-**Example Query:**
+**Example Queries:**
 
 ```graphql
-query GetUsers {
-  users {
+# Get all notes
+query GetNotes {
+  notes {
     id
-    email
-    name
+    title
+    content
+    is_published
+    created_at
+    updated_at
+  }
+}
+
+# Get single note
+query GetNote($id: Int!) {
+  note(id: $id) {
+    id
+    title
+    content
+    is_published
+  }
+}
+
+# Health check
+query HealthCheck {
+  health {
+    status
+    api {
+      status
+    }
+    database {
+      status
+      connection
+    }
   }
 }
 ```
@@ -46,19 +88,38 @@ query GetUsers {
 
 ```graphql
 type Mutation {
-  createUser(email: String!, name: String): User!
+  createNote(input: CreateNoteInput!): Note!
+  updateNote(id: Int!, input: UpdateNoteInput!): Note
+  deleteNote(id: Int!): Boolean!
 }
 ```
 
-**Example Mutation:**
+**Example Mutations:**
 
 ```graphql
-mutation CreateUser($email: String!, $name: String) {
-  createUser(email: $email, name: $name) {
+# Create note
+mutation CreateNote($input: CreateNoteInput!) {
+  createNote(input: $input) {
     id
-    email
-    name
+    title
+    content
+    is_published
   }
+}
+
+# Update note
+mutation UpdateNote($id: Int!, $input: UpdateNoteInput!) {
+  updateNote(id: $id, input: $input) {
+    id
+    title
+    content
+    is_published
+  }
+}
+
+# Delete note
+mutation DeleteNote($id: Int!) {
+  deleteNote(id: $id)
 }
 ```
 
@@ -66,13 +127,18 @@ mutation CreateUser($email: String!, $name: String) {
 
 ### Health Check
 
-- **GET** `/health`
-- **Response**: `{"status": "healthy"}`
+- **GET** `/api/health`
+- **Response**: `{"ok": true}`
 
-### Root
+## API Architecture
 
-- **GET** `/`
-- **Response**: `{"message": "GraphQL API is running"}`
+The API is organized using a modular pattern:
+
+- **Types** (`apps/api/types/`): Strawberry GraphQL type definitions
+- **Schemas** (`apps/api/schemas/`): Query and mutation definitions  
+- **Resolvers** (`apps/api/resolvers/`): Business logic implementation
+- **Models** (`apps/api/models/`): SQLAlchemy database models
+- **Entry Point**: `apps/api/index.py` exports FastAPI app
 
 ## Authentication
 

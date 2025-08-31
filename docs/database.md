@@ -4,7 +4,9 @@
 
 ### Setup
 
-The database package (`packages/db`) provides Supabase client configuration and TypeScript type definitions.
+The project uses dual database access patterns:
+- **Frontend**: Direct Supabase client integration in `apps/web`
+- **Backend**: SQLAlchemy with Alembic migrations in `apps/api`
 
 ### Environment Variables
 
@@ -13,10 +15,15 @@ NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 ```
 
-### Client Usage
+### Frontend Client Usage (apps/web)
 
 ```typescript
-import { supabase } from 'db'
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
 // Query data
 const { data, error } = await supabase
@@ -29,25 +36,40 @@ const { data, error } = await supabase
   .insert({ email: 'user@example.com', name: 'John Doe' })
 ```
 
-## Type Generation
+### Backend ORM Usage (apps/api)
 
-### Generate Types
+The API uses SQLAlchemy models defined in `apps/api/models/` with Alembic for migrations.
 
-```bash
-cd packages/db
-pnpm gen-types
+```python
+from sqlalchemy.orm import Session
+from .models import User
+from .database import get_db
+
+# Query data
+def get_users(db: Session):
+    return db.query(User).all()
+
+# Insert data  
+def create_user(db: Session, email: str, name: str):
+    user = User(email=email, name=name)
+    db.add(user)
+    db.commit()
+    return user
 ```
 
-This command:
+## Type Generation
 
-1. Connects to your Supabase database
-2. Generates TypeScript types from your schema
-3. Saves types to `supabase/types.ts`
+### Generate Supabase Types
+
+```bash
+# Generate TypeScript types for frontend
+supabase gen types typescript --project-id your-project-id > apps/web/types/supabase.ts
+```
 
 ### Using Generated Types
 
 ```typescript
-import type { Database } from 'db'
+import type { Database } from '@/types/supabase'
 
 type User = Database['public']['Tables']['users']['Row']
 type UserInsert = Database['public']['Tables']['users']['Insert']
@@ -56,31 +78,37 @@ type UserUpdate = Database['public']['Tables']['users']['Update']
 
 ## Schema Management
 
-### Local Development
+### Backend Migrations (apps/api)
 
-For local development with Supabase CLI:
+The Python API uses Alembic for database schema management:
+
+```bash
+# Create a new migration
+pnpm migrate:create
+
+# Apply migrations
+pnpm migrate
+
+# Manual migration commands (with venv activated)
+cd apps/api
+source ../../.venv/bin/activate
+PYTHONPATH=../.. alembic revision --autogenerate -m "description"
+PYTHONPATH=../.. alembic upgrade head
+```
+
+### Supabase CLI (Optional)
+
+For direct Supabase management:
 
 ```bash
 # Start local Supabase
 supabase start
 
-# Apply migrations
+# Apply SQL migrations
 supabase db push
 
 # Generate types for local instance
-supabase gen types typescript --local > supabase/types.ts
-```
-
-### Migrations
-
-Create and apply database migrations:
-
-```bash
-# Create migration
-supabase migration new add_users_table
-
-# Apply to remote
-supabase db push
+supabase gen types typescript --local > apps/web/types/supabase.ts
 ```
 
 ## Row Level Security (RLS)

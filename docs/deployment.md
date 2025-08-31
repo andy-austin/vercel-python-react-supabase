@@ -11,10 +11,10 @@
 ### Python API Deployment
 
 - **Runtime**: python3.11
-- **Function**: `packages/graphql/src/app.py`
+- **Function**: `apps/api/index.py`
 - **Routes**:
   - `/api/graphql/*` → Python serverless function
-  - GraphQL endpoint available at `/graphql`
+  - GraphQL endpoint available at `/api/graphql`
 
 ### Environment Variables
 
@@ -35,8 +35,8 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 ### Python Build
 
-1. uv installs dependencies from pyproject.toml
-2. FastAPI app becomes serverless function
+1. Dependencies installed from `apps/api/requirements.txt`
+2. FastAPI app at `apps/api/index.py` becomes serverless function
 3. Vercel handles Python runtime automatically
 
 ## Monitoring
@@ -44,8 +44,8 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ### Health Checks
 
 - Frontend: Standard Next.js health
-- API: `/health` endpoint returns `{"status": "healthy"}`
-- GraphQL: `/graphql` provides GraphQL playground in development
+- API: `/api/health` endpoint returns `{"ok": true}`
+- GraphQL: `/api/graphql` provides GraphQL endpoint
 
 ### Logs
 

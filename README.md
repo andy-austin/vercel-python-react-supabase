@@ -1,6 +1,8 @@
-# vercel-python-react-supabase
+# Vercel Python React Supabase Template
 
-A full-stack monorepo template combining React, Python, and Supabase, optimized for Vercel deployment. Features a Next.js frontend with a FastAPI GraphQL backend, organized using pnpm workspaces and Turbo for efficient development.
+🚀 **Production-ready full-stack template** combining React, Python, and Supabase, optimized for Vercel deployment. Features a Next.js frontend with a FastAPI GraphQL backend, organized using pnpm workspaces and Turbo for efficient development.
+
+> **Perfect for:** SaaS applications, APIs with frontend, rapid prototyping, and modern web applications requiring both frontend and backend functionality.
 
 ## ✨ Features
 
@@ -24,9 +26,10 @@ A full-stack monorepo template combining React, Python, and Supabase, optimized 
 #### Option 1: Automated Setup (Recommended)
 
 ```bash
-# Clone the repository
-git clone <repository-url>
-cd vercel-python-react-supabase
+# Use this template (GitHub)
+# Click "Use this template" button on GitHub, or:
+git clone https://github.com/your-username/vercel-python-react-supabase.git my-app
+cd my-app
 
 # Run the setup script
 ./setup.sh
@@ -35,9 +38,9 @@ cd vercel-python-react-supabase
 #### Option 2: Manual Setup
 
 ```bash
-# Clone the repository
-git clone <repository-url>
-cd vercel-python-react-supabase
+# Clone the template
+git clone https://github.com/your-username/vercel-python-react-supabase.git my-app
+cd my-app
 
 # Install Node.js dependencies
 pnpm install
