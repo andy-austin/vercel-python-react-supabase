@@ -7,7 +7,9 @@ from sqlalchemy.orm import sessionmaker
 
 # Load environment variables from the root directory
 env_path = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+    os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    ),  # noqa: E501
     ".env.local",
 )
 load_dotenv(env_path)

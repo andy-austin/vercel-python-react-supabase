@@ -28,7 +28,7 @@ const StatusIndicator = ({ status, isLoading }: { status?: string; isLoading: bo
 }
 
 export default function GraphQLStatusCard() {
-  const { isConnected, isLoading, error, lastChecked, apiUrl, healthData, refetch } = useGraphQLStatus()
+  const { isLoading, error, lastChecked, apiUrl, healthData, refetch } = useGraphQLStatus()
 
   return (
     <Card>
