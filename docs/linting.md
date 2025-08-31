@@ -50,23 +50,25 @@ cd packages/db && pnpm lint
 
 ### Configuration Files
 
-- `pyproject.toml`: Tool configurations for black, isort, mypy
-- `.flake8`: Flake8 specific configuration
-- Compatible with black formatting
+- **`pyproject.toml`**: Unified configuration for black, isort, and flake8
+- **`.pre-commit-config.yaml`**: Pre-commit hook configurations
+- All tools configured for black compatibility and 88-character line length
 
 ### Commands
 
 ```bash
-# Python linting
-cd packages/graphql
-pnpm py:lint      # Run flake8
-pnpm py:lint:fix  # Format with black + isort
-pnpm py:typecheck # Run mypy
+# Python linting (manual)
+cd apps/api
+source ../../.venv/bin/activate
+python -m flake8 .     # Run flake8
+python -m black .      # Format with black
+python -m isort .      # Sort imports
+python -m mypy . || true  # Type checking
 
 # Root level (all packages)
-pnpm lint         # Includes Python linting
-pnpm lint:fix     # Includes Python formatting
-pnpm typecheck    # Includes mypy
+pnpm lint         # Includes Python linting via pre-commit
+pnpm lint:fix     # Auto-fix issues where possible
+pnpm typecheck    # TypeScript type checking
 ```
 
 ### Configuration Details
@@ -82,6 +84,8 @@ pnpm typecheck    # Includes mypy
 - Profile: "black" (compatible with black formatting)
 - Multi-line output format: 3
 - Line length: 88 characters
+- Known first party: ["schema"] for local imports
+- Sections: FUTURE, STDLIB, THIRDPARTY, FIRSTPARTY, LOCALFOLDER
 
 #### mypy
 
@@ -92,8 +96,8 @@ pnpm typecheck    # Includes mypy
 #### flake8
 
 - Max line length: 88 (black compatible)
-- Ignores black-incompatible warnings (E203, W503)
-- Per-file ignores for `__init__.py` imports
+- Extends ignore: ["E203", "W503"] for black compatibility
+- Excludes: [".git", "__pycache__", ".venv", "build", "dist"]
 
 ## IDE Integration
 
@@ -131,10 +135,10 @@ This project comes with pre-configured pre-commit hooks for automatic code quali
 ### Setup
 
 ```bash
-# Install pre-commit
-pip install pre-commit
+# Install pre-commit (done automatically by setup.sh)
+uv tool install pre-commit
 
-# Install hooks (done automatically when you run pnpm install)
+# Install hooks (done automatically by setup.sh)
 pre-commit install
 
 # Run hooks on all files manually
@@ -161,17 +165,13 @@ Configured in `.pre-commit-config.yaml`:
 
 ### Hooks Configured
 
-**Python (packages/graphql):**
+**Python (apps/api):**
 
-- `black` - Code formatting
-- `isort` - Import sorting  
-- `flake8` - Linting
-- `mypy` - Static type checking
+- `black` - Code formatting (88 char line length)
+- `isort` - Import sorting with black profile
+- `flake8` - Linting with black compatibility
 
-**TypeScript/JavaScript:**
-
-- `eslint` - Linting with auto-fix
-- Configured for React, Next.js, and TypeScript
+**Note**: ESLint hooks removed from pre-commit to reduce complexity. Use `pnpm lint` for JavaScript/TypeScript linting.
 
 **General:**
 
@@ -201,8 +201,11 @@ Configured in `.pre-commit-config.yaml`:
 
 ```bash
 # Reset Python environment
-cd packages/graphql && rm -rf .venv && pnpm py:install
+rm -rf .venv && ./setup.sh
 
 # Reset Node modules
-rm -rf node_modules package-lock.json && pnpm install
+rm -rf node_modules pnpm-lock.yaml && pnpm install
+
+# Reset pre-commit
+pre-commit clean && pre-commit install
 ```

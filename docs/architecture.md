@@ -10,27 +10,22 @@ Full-stack application combining React frontend with Python GraphQL API, deploye
 
 - **Framework**: Next.js 14 with App Router
 - **Deployment**: Vercel static site generation
-- **Dependencies**: Imports `shared` and `db` workspace packages
+- **Dependencies**: Self-contained Next.js application
 
-### GraphQL API (packages/graphql)
+### GraphQL API (apps/api)
 
 - **Framework**: FastAPI with Strawberry GraphQL
 - **Runtime**: Python 3.11 serverless function on Vercel
 - **Endpoint**: `/api/graphql` (proxied via Vercel routing)
-- **Features**: CORS enabled, basic User queries/mutations
+- **Features**: CORS enabled, basic GraphQL schema
+- **Dependencies**: Managed via requirements.txt and virtual environment
 
-### Database (packages/db)
+### Database
 
 - **Service**: Supabase PostgreSQL
 - **Client**: @supabase/supabase-js
-- **Types**: Generated TypeScript definitions in `supabase/types.ts`
 - **Environment**: Requires `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-
-### Shared Code (packages/shared)
-
-- **Purpose**: Common utilities, types, and React components
-- **Structure**: Modular exports for utils, types, components
-- **Usage**: Imported by web app and potentially other packages
+- **Note**: Database client configuration moved to web app directly
 
 ## Data Flow
 

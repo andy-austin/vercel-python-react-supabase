@@ -9,9 +9,8 @@ This is a monorepo using **pnpm workspaces** and **Turbo** for build orchestrati
 ### Structure Overview
 
 - **apps/web**: Next.js React frontend application
-- **packages/shared**: Shared TypeScript utilities, types, and React components used across apps
-- **packages/db**: Supabase client configuration and type definitions  
-- **packages/graphql**: FastAPI Python GraphQL API using Strawberry GraphQL
+- **apps/api**: FastAPI Python GraphQL API using Strawberry GraphQL
+- **.venv/**: Python virtual environment for API dependencies
 
 ### Key Technologies
 
@@ -45,23 +44,15 @@ pnpm lint         # ESLint + Next.js linting
 pnpm type-check   # TypeScript type checking
 ```
 
-#### Python GraphQL API (packages/graphql)
+#### Python GraphQL API (apps/api)
 
 ```bash
-cd packages/graphql
-pnpm py:install   # Install Python dependencies with uv
-pnpm py:dev       # Start FastAPI dev server (port 8000)
-pnpm py:test      # Run pytest tests
-pnpm py:lint      # Run flake8 linting
-pnpm py:typecheck # Run mypy type checking
+cd apps/api
+# Activate virtual environment first:
+source ../../.venv/bin/activate
+python -m uvicorn index:handler --reload --host 0.0.0.0 --port 8000
 ```
 
-#### Supabase Package (packages/db)
-
-```bash
-cd packages/db
-pnpm gen-types    # Generate TypeScript types from Supabase schema
-```
 
 ## Deployment Configuration
 
@@ -74,16 +65,13 @@ pnpm gen-types    # Generate TypeScript types from Supabase schema
 
 ### Python Dependencies
 
-Uses **uv** for fast Python dependency management. Python code requires Python 3.11+ with FastAPI, Strawberry GraphQL, and Supabase client.
+Uses **uv** for fast Python dependency management with a virtual environment in the project root (.venv/). Python code requires Python 3.11+ with FastAPI, Strawberry GraphQL, and related dependencies managed via requirements.txt.
 
-## Workspace Dependencies
+## Environment Configuration
 
-The web app imports shared packages using workspace protocol:
-
-- `shared`: Common utilities, types, and React components
-- `db`: Supabase client and database types
-
-Always use workspace dependencies rather than duplicating code across packages.
+- **Root .env.local**: Contains environment variables for both Next.js (NEXT_PUBLIC_*) and Python API
+- **Virtual Environment**: Python dependencies isolated in .venv/ directory
+- **Setup Script**: ./setup.sh automates the complete development environment setup
 
 ## Documentation
 

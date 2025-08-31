@@ -10,6 +10,16 @@
 
 ### Quick Start
 
+#### Option 1: Automated Setup (Recommended)
+```bash
+# Run the setup script
+./setup.sh
+
+# Start all services
+pnpm dev
+```
+
+#### Option 2: Manual Setup
 ```bash
 # Install Node.js dependencies
 pnpm install
@@ -18,8 +28,9 @@ pnpm install
 curl -LsSf https://astral.sh/uv/install.sh | sh
 export PATH="$HOME/.local/bin:$PATH"
 
-# Install Python dependencies
-cd packages/graphql && pnpm py:install && cd ../..
+# Create virtual environment and install Python dependencies
+uv venv .venv
+uv pip install -r apps/api/requirements.txt --python .venv/bin/python
 
 # Start all services
 pnpm dev
@@ -34,22 +45,21 @@ This starts:
 
 ### Adding New Features
 
-1. Determine which package the feature belongs to
-2. Update shared types in `packages/shared` if needed
-3. Implement frontend in `apps/web`
-4. Add GraphQL schema/resolvers in `packages/graphql`
-5. Update database schema and regenerate types if needed
+1. Implement frontend changes in `apps/web`
+2. Add GraphQL schema/resolvers in `apps/api`
+3. Update database schema in Supabase if needed
+4. Run linting and type checking before committing
 
 ### Working with Types
 
-- Database types: Run `pnpm gen-types` in `packages/db`
-- Shared types: Add to `packages/shared/src/types/index.ts`
-- GraphQL types: Define Strawberry types in Python API
+- Database types: Configure Supabase client directly in `apps/web`
+- GraphQL types: Define Strawberry types in `apps/api/schema.py`
+- Frontend types: Add TypeScript types directly in relevant components
 
 ### Testing
 
 - Frontend: Tests run with Next.js testing framework
-- Python API: pytest in `packages/graphql/tests/`
+- Python API: Tests in `apps/api/` (when implemented)
 - Run all tests: `pnpm test` from root
 
 ### Code Quality
@@ -62,11 +72,13 @@ pnpm lint         # Check all code (ESLint + flake8)
 pnpm lint:fix     # Auto-fix issues (ESLint --fix + black + isort)
 pnpm typecheck    # Type checking (TypeScript + mypy)
 
-# Package-specific
-cd packages/graphql
-pnpm py:lint      # Python linting with flake8
-pnpm py:lint:fix  # Format Python code with black + isort
-pnpm py:typecheck # Python type checking with mypy
+# Python API specific
+cd apps/api
+# Activate virtual environment first:
+source ../../.venv/bin/activate
+python -m flake8 .     # Python linting
+python -m black .      # Format Python code
+python -m isort .      # Sort imports
 ```
 
 #### Linter Configurations
@@ -83,5 +95,5 @@ pnpm py:typecheck # Python type checking with mypy
 
 - **CORS errors**: Check FastAPI CORS middleware configuration
 - **Type errors**: Ensure Supabase types are up to date
-- **Import errors**: Verify workspace dependencies in package.json files
-- **Python dependency issues**: Use `uv sync` to reset Python environment
+- **Import errors**: Check workspace configuration in pnpm-workspace.yaml
+- **Python dependency issues**: Recreate .venv with `rm -rf .venv && ./setup.sh`
