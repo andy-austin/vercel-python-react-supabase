@@ -24,6 +24,7 @@ This is a monorepo using **pnpm workspaces** and **Turbo** for build orchestrati
 ## Development Commands
 
 ### Root Level Commands (uses Turbo)
+
 ```bash
 pnpm dev          # Start all services in development mode
 pnpm build        # Build all packages and apps
@@ -35,6 +36,7 @@ pnpm clean        # Clean all build artifacts
 ### Package-Specific Commands
 
 #### Next.js Web App (apps/web)
+
 ```bash
 cd apps/web
 pnpm dev          # Start Next.js dev server (port 3000)
@@ -44,6 +46,7 @@ pnpm type-check   # TypeScript type checking
 ```
 
 #### Python GraphQL API (packages/graphql)
+
 ```bash
 cd packages/graphql
 pnpm py:install   # Install Python dependencies with uv
@@ -54,6 +57,7 @@ pnpm py:typecheck # Run mypy type checking
 ```
 
 #### Supabase Package (packages/db)
+
 ```bash
 cd packages/db
 pnpm gen-types    # Generate TypeScript types from Supabase schema
@@ -62,16 +66,20 @@ pnpm gen-types    # Generate TypeScript types from Supabase schema
 ## Deployment Configuration
 
 ### Vercel Setup
+
 - Main build targets Next.js app in `apps/web`
 - Python GraphQL API deployed as serverless function
 - Routes `/api/graphql/*` proxy to Python function
 - Requires `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` environment variables
 
 ### Python Dependencies
+
 Uses **uv** for fast Python dependency management. Python code requires Python 3.11+ with FastAPI, Strawberry GraphQL, and Supabase client.
 
 ## Workspace Dependencies
+
 The web app imports shared packages using workspace protocol:
+
 - `shared`: Common utilities, types, and React components
 - `db`: Supabase client and database types
 

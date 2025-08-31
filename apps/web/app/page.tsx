@@ -12,10 +12,10 @@ export default function Home() {
             Full-stack template with Next.js, Python FastAPI, and Supabase
           </p>
         </div>
-        
+
         <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
           <GraphQLStatusCard />
-          
+
           <div className="border rounded-lg p-6 bg-white shadow-sm">
             <h2 className="text-xl font-semibold mb-4">Quick Links</h2>
             <div className="space-y-2">

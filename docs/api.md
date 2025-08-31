@@ -5,8 +5,9 @@
 The FastAPI GraphQL API provides data access through Strawberry GraphQL schema.
 
 ### Endpoint
-- **Development**: http://localhost:8000/graphql
-- **Production**: https://your-app.vercel.app/api/graphql
+
+- **Development**: <http://localhost:8000/graphql>
+- **Production**: <https://your-app.vercel.app/api/graphql>
 
 ### Schema
 
@@ -30,6 +31,7 @@ type Query {
 ```
 
 **Example Query:**
+
 ```graphql
 query GetUsers {
   users {
@@ -49,6 +51,7 @@ type Mutation {
 ```
 
 **Example Mutation:**
+
 ```graphql
 mutation CreateUser($email: String!, $name: String) {
   createUser(email: $email, name: $name) {
@@ -62,10 +65,12 @@ mutation CreateUser($email: String!, $name: String) {
 ## REST Endpoints
 
 ### Health Check
+
 - **GET** `/health`
 - **Response**: `{"status": "healthy"}`
 
 ### Root
+
 - **GET** `/`
 - **Response**: `{"message": "GraphQL API is running"}`
 

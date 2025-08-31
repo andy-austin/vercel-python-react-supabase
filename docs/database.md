@@ -3,15 +3,18 @@
 ## Supabase Configuration
 
 ### Setup
+
 The database package (`packages/db`) provides Supabase client configuration and TypeScript type definitions.
 
 ### Environment Variables
+
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 ```
 
 ### Client Usage
+
 ```typescript
 import { supabase } from 'db'
 
@@ -29,17 +32,20 @@ const { data, error } = await supabase
 ## Type Generation
 
 ### Generate Types
+
 ```bash
 cd packages/db
 pnpm gen-types
 ```
 
 This command:
+
 1. Connects to your Supabase database
 2. Generates TypeScript types from your schema
 3. Saves types to `supabase/types.ts`
 
 ### Using Generated Types
+
 ```typescript
 import type { Database } from 'db'
 
@@ -51,6 +57,7 @@ type UserUpdate = Database['public']['Tables']['users']['Update']
 ## Schema Management
 
 ### Local Development
+
 For local development with Supabase CLI:
 
 ```bash
@@ -65,6 +72,7 @@ supabase gen types typescript --local > supabase/types.ts
 ```
 
 ### Migrations
+
 Create and apply database migrations:
 
 ```bash

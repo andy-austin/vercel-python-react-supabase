@@ -20,7 +20,7 @@ export function useGraphQLStatus() {
 
   const checkStatus = useCallback(async () => {
     setStatus(prev => ({ ...prev, isLoading: true, error: null }))
-    
+
     try {
       // Simple GraphQL query to test connection
       const query = {
@@ -44,7 +44,7 @@ export function useGraphQLStatus() {
       }
 
       const result = await response.json()
-      
+
       if (result.errors) {
         throw new Error(result.errors[0]?.message || 'GraphQL query failed')
       }
@@ -71,9 +71,9 @@ export function useGraphQLStatus() {
   // Check status on mount and set up periodic checking
   useEffect(() => {
     checkStatus()
-    
+
     const interval = setInterval(checkStatus, 30000) // Check every 30 seconds
-    
+
     return () => clearInterval(interval)
   }, [checkStatus])
 

@@ -85,9 +85,10 @@ pnpm dev
 ```
 
 This will start:
-- Next.js frontend: http://localhost:3000
-- FastAPI GraphQL API: http://localhost:8000
-- GraphQL Playground: http://localhost:8000/graphql
+
+- Next.js frontend: <http://localhost:3000>
+- FastAPI GraphQL API: <http://localhost:8000>
+- GraphQL Playground: <http://localhost:8000/graphql>
 
 ## 📁 Project Structure
 
@@ -104,6 +105,7 @@ This will start:
 ## 🛠 Development Commands
 
 ### Root Level (Turbo)
+
 ```bash
 pnpm dev          # Start all services
 pnpm build        # Build all packages and apps
@@ -115,6 +117,7 @@ pnpm clean        # Clean build artifacts
 ```
 
 ### Package-Specific
+
 ```bash
 # Next.js (apps/web)
 cd apps/web
@@ -138,6 +141,7 @@ python3 -m uvicorn index:handler --reload --host 0.0.0.0 --port 8000
 ### Environment Variables
 
 Required in Vercel:
+
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
@@ -187,6 +191,7 @@ pre-commit run --all-files
 ```
 
 **Hooks configured:**
+
 - **Python**: black, isort, flake8, mypy
 - **TypeScript/JavaScript**: ESLint with auto-fix
 - **General**: trailing whitespace, end-of-file fixer, YAML/JSON validation

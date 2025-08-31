@@ -39,10 +39,10 @@ if command -v python3 &> /dev/null; then
         echo "Installing pre-commit..."
         uv tool install pre-commit
     fi
-    
+
     echo "Installing pre-commit hooks..."
     pre-commit install
-    
+
     echo "✅ Pre-commit hooks installed!"
 else
     echo "⚠️  Python not found. Skipping pre-commit setup."

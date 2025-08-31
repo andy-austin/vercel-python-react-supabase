@@ -12,11 +12,13 @@ The project uses different linting tools for different languages:
 ## TypeScript/JavaScript Linting
 
 ### Configuration
+
 - **Root config**: `.eslintrc.json` with base rules
 - **Package configs**: Individual `.eslintrc.json` files that extend the root config
 - **Rules**: TypeScript, React, and Next.js specific rules
 
 ### Commands
+
 ```bash
 # Lint all TypeScript/JavaScript code
 pnpm lint
@@ -31,6 +33,7 @@ cd packages/db && pnpm lint
 ```
 
 ### Rules Highlights
+
 - No unused variables (with underscore prefix exception)
 - React hooks rules enforced
 - TypeScript strict mode recommended
@@ -39,17 +42,20 @@ cd packages/db && pnpm lint
 ## Python Linting
 
 ### Tools Used
+
 - **flake8**: Code linting and style checking
 - **black**: Code formatting (88 character line limit)
 - **isort**: Import sorting
 - **mypy**: Static type checking
 
 ### Configuration Files
+
 - `pyproject.toml`: Tool configurations for black, isort, mypy
 - `.flake8`: Flake8 specific configuration
 - Compatible with black formatting
 
 ### Commands
+
 ```bash
 # Python linting
 cd packages/graphql
@@ -66,21 +72,25 @@ pnpm typecheck    # Includes mypy
 ### Configuration Details
 
 #### Black
+
 - Line length: 88 characters
 - Target Python version: 3.11+
 - Excludes build directories and virtual environments
 
 #### isort  
+
 - Profile: "black" (compatible with black formatting)
 - Multi-line output format: 3
 - Line length: 88 characters
 
 #### mypy
+
 - Python version: 3.11
 - Strict mode with comprehensive type checking
 - Warns on unused configs and redundant casts
 
 #### flake8
+
 - Max line length: 88 (black compatible)
 - Ignores black-incompatible warnings (E203, W503)
 - Per-file ignores for `__init__.py` imports
@@ -88,7 +98,9 @@ pnpm typecheck    # Includes mypy
 ## IDE Integration
 
 ### VS Code
+
 Install these extensions:
+
 - ESLint
 - Prettier
 - Python
@@ -96,7 +108,9 @@ Install these extensions:
 - Black Formatter
 
 ### Settings
+
 Add to your VS Code `settings.json`:
+
 ```json
 {
   "python.formatting.provider": "black",
@@ -130,13 +144,17 @@ pre-commit run --all-files
 ### Available Approaches
 
 #### 1. Husky + lint-staged (Node.js-based)
+
 Automatically configured with the template:
+
 - Runs on `git commit`
 - Uses `lint-staged` to only check modified files
 - Integrated with npm/pnpm workflow
 
 #### 2. Pre-commit framework (Python-based)  
+
 Configured in `.pre-commit-config.yaml`:
+
 - More comprehensive hook ecosystem
 - Language-agnostic
 - Can be used with CI/CD
@@ -144,16 +162,19 @@ Configured in `.pre-commit-config.yaml`:
 ### Hooks Configured
 
 **Python (packages/graphql):**
+
 - `black` - Code formatting
 - `isort` - Import sorting  
 - `flake8` - Linting
 - `mypy` - Static type checking
 
 **TypeScript/JavaScript:**
+
 - `eslint` - Linting with auto-fix
 - Configured for React, Next.js, and TypeScript
 
 **General:**
+
 - Trailing whitespace removal
 - End-of-file fixer
 - YAML, JSON, TOML validation
@@ -177,6 +198,7 @@ Configured in `.pre-commit-config.yaml`:
    - Always run `black` before `flake8`
 
 ### Reset Commands
+
 ```bash
 # Reset Python environment
 cd packages/graphql && rm -rf .venv && pnpm py:install
