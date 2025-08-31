@@ -1,12 +1,25 @@
 import { useState, useEffect, useCallback } from 'react'
 
+export interface HealthData {
+  status: string
+  timestamp: string
+  api: {
+    status: string
+  }
+  database: {
+    status: string
+    connection: boolean
+    details: string | null
+  }
+}
+
 export interface GraphQLStatus {
   isConnected: boolean
   isLoading: boolean
   error: string | null
   lastChecked: Date | null
   apiUrl: string
-  helloMessage?: string
+  healthData?: HealthData
 }
 
 export function useGraphQLStatus() {
@@ -22,11 +35,22 @@ export function useGraphQLStatus() {
     setStatus(prev => ({ ...prev, isLoading: true, error: null }))
 
     try {
-      // Simple GraphQL query to test connection
+      // Comprehensive health query
       const query = {
         query: `
           query {
-            health
+            health {
+              status
+              timestamp
+              api {
+                status
+              }
+              database {
+                status
+                connection
+                details
+              }
+            }
           }
         `
       }
@@ -49,13 +73,16 @@ export function useGraphQLStatus() {
         throw new Error(result.errors[0]?.message || 'GraphQL query failed')
       }
 
+      const healthData = result.data?.health
+      const overallHealthy = healthData?.status === 'ok'
+      
       setStatus({
-        isConnected: true,
+        isConnected: overallHealthy,
         isLoading: false,
         error: null,
         lastChecked: new Date(),
         apiUrl: '/api/graphql',
-        helloMessage: result.data?.health
+        healthData: healthData
       })
     } catch (error) {
       setStatus(prev => ({
