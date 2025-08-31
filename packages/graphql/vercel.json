@@ -1,0 +1,17 @@
+{
+  "functions": {
+    "src/app.py": {
+      "runtime": "python3.11"
+    }
+  },
+  "routes": [
+    {
+      "src": "/graphql",
+      "dest": "/src/app.py"
+    },
+    {
+      "src": "/graphql/(.*)",
+      "dest": "/src/app.py"
+    }
+  ]
+}

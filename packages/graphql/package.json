@@ -1,0 +1,17 @@
+{
+  "name": "graphql",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "py:install": "uv sync",
+    "py:dev": "uv run uvicorn src.app:app --reload --host 0.0.0.0 --port 8000",
+    "py:test": "uv run pytest tests/ -v",
+    "py:lint": "uv run flake8 api/",
+    "py:typecheck": "uv run mypy api/",
+    "build": "echo 'Python build complete'",
+    "dev": "pnpm py:dev",
+    "test": "pnpm py:test",
+    "lint": "pnpm py:lint",
+    "typecheck": "pnpm py:typecheck"
+  }
+}

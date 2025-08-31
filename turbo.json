@@ -1,0 +1,47 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local"],
+  "packageManager": "pnpm",
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**", "lib/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "dependsOn": ["^build"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build"]
+    },
+    "py:install": {
+      "cache": false,
+      "outputs": []
+    },
+    "py:dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "py:test": {
+      "dependsOn": ["py:install"],
+      "outputs": []
+    },
+    "py:lint": {
+      "dependsOn": ["py:install"],
+      "outputs": []
+    },
+    "py:typecheck": {
+      "dependsOn": ["py:install"],
+      "outputs": []
+    },
+    "clean": {
+      "cache": false
+    }
+  }
+}

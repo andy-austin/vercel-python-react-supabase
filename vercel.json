@@ -1,0 +1,15 @@
+{
+  "buildCommand": "cd apps/web && npm run build",
+  "outputDirectory": "apps/web/.next",
+  "functions": {
+    "packages/graphql/api/graphql.py": {
+      "runtime": "python3.11"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/graphql/(.*)",
+      "destination": "/api/graphql.py"
+    }
+  ]
+}
