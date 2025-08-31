@@ -1,0 +1,14 @@
+{
+  "name": "api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "py:install": "cd ../../packages/graphql && uv pip install -e .",
+    "py:dev": "cd ../../packages/graphql && uv run uvicorn src.app:app --reload --host 0.0.0.0 --port 8000",
+    "py:test": "cd ../../packages/graphql && uv run pytest",
+    "py:lint": "cd ../../packages/graphql && uv run flake8 src tests",
+    "py:typecheck": "cd ../../packages/graphql && uv run mypy src",
+    "build": "echo 'API build complete'"
+  },
+  "dependencies": {}
+}

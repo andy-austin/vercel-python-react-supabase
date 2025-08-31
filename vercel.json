@@ -1,15 +1,20 @@
 {
-  "buildCommand": "cd apps/web && npm run build",
+  "buildCommand": "pnpm build",
   "outputDirectory": "apps/web/.next",
+  "installCommand": "pnpm install",
   "functions": {
-    "packages/graphql/api/graphql.py": {
-      "runtime": "python3.11"
+    "apps/api/*.py": {
+      "runtime": "python3.9"
     }
   },
   "rewrites": [
     {
+      "source": "/api/graphql",
+      "destination": "/apps/api/graphql"
+    },
+    {
       "source": "/api/graphql/(.*)",
-      "destination": "/api/graphql.py"
+      "destination": "/apps/api/graphql"
     }
   ]
 }

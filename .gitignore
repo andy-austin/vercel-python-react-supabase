@@ -228,3 +228,4 @@ node_modules/
 .pre-commit/
 .husky
 .husky/_/
+.vercel
