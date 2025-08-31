@@ -4,17 +4,17 @@
   "installCommand": "pnpm install",
   "functions": {
     "apps/api/*.py": {
-      "runtime": "python3.9"
+      "runtime": "python3.11"
     }
   },
   "rewrites": [
     {
       "source": "/api/graphql",
-      "destination": "/apps/api/graphql"
+      "destination": "/apps/api/index"
     },
     {
       "source": "/api/graphql/(.*)",
-      "destination": "/apps/api/graphql"
+      "destination": "/apps/api/index"
     }
   ]
 }

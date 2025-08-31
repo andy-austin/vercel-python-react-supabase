@@ -26,7 +26,7 @@ export function useGraphQLStatus() {
       const query = {
         query: `
           query {
-            hello
+            health
           }
         `
       }
@@ -55,7 +55,7 @@ export function useGraphQLStatus() {
         error: null,
         lastChecked: new Date(),
         apiUrl: '/api/graphql',
-        helloMessage: result.data?.hello
+        helloMessage: result.data?.health
       })
     } catch (error) {
       setStatus(prev => ({

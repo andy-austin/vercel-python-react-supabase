@@ -29,7 +29,7 @@ git clone <repository-url>
 cd vercel-python-react-supabase
 
 # Run the setup script
-./setup-hooks.sh
+./setup.sh
 ```
 
 #### Option 2: Manual Setup
@@ -51,11 +51,12 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 export PATH="$HOME/.local/bin:$PATH"
 # Or restart your shell, or add to your shell profile (.bashrc, .zshrc, etc.)
 
-# Install Python dependencies
-cd packages/graphql && pnpm py:install && cd ../..
+# Create Python virtual environment and install dependencies
+uv venv .venv
+uv pip install -r apps/api/requirements.txt --python .venv/bin/python
 
 # Set up pre-commit hooks (optional but recommended)
-pip install pre-commit
+uv tool install pre-commit
 pre-commit install
 ```
 
@@ -92,11 +93,9 @@ This will start:
 
 ```
 ├── apps/
-│   └── web/                 # Next.js frontend application
-├── packages/
-│   ├── shared/              # Shared utilities, types, and components
-│   ├── db/                  # Supabase client and type definitions
-│   └── graphql/             # FastAPI GraphQL API
+│   ├── web/                 # Next.js frontend application
+│   └── api/                 # FastAPI GraphQL API
+├── .venv/                   # Python virtual environment
 ├── docs/                    # Detailed project documentation
 ├── CLAUDE.md               # AI assistant guidance
 └── turbo.json              # Turbo build configuration
@@ -121,16 +120,11 @@ pnpm clean        # Clean build artifacts
 cd apps/web
 pnpm type-check   # TypeScript checking
 
-# Python API (packages/graphql)
-cd packages/graphql
-pnpm py:test      # Run pytest
-pnpm py:lint      # Run flake8
-pnpm py:lint:fix  # Format with black and isort
-pnpm py:typecheck # Run mypy
-
-# Database (packages/db)
-cd packages/db
-pnpm gen-types    # Generate Supabase types
+# Python API (apps/api)
+cd apps/api
+# Activate virtual environment first:
+source ../../.venv/bin/activate
+python3 -m uvicorn index:handler --reload --host 0.0.0.0 --port 8000
 ```
 
 ## 🚢 Deployment
@@ -183,7 +177,7 @@ This project uses pre-commit hooks to ensure code quality:
 
 ```bash
 # Install pre-commit (if not already installed)
-pip install pre-commit
+uv tool install pre-commit
 
 # Install hooks for this repository
 pre-commit install

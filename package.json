@@ -29,10 +29,10 @@
     "apps/web/**/*.{js,jsx,ts,tsx}": [
       "cd apps/web && eslint --fix"
     ],
-    "packages/graphql/**/*.py": [
-      "bash -c 'cd packages/graphql && export PATH=\"$HOME/.local/bin:$PATH\" && uv run --no-sync black src/ tests/'",
-      "bash -c 'cd packages/graphql && export PATH=\"$HOME/.local/bin:$PATH\" && uv run --no-sync isort src/ tests/'",
-      "bash -c 'cd packages/graphql && export PATH=\"$HOME/.local/bin:$PATH\" && uv run --no-sync flake8 src/ tests/'"
+    "apps/api/**/*.py": [
+      "bash -c 'cd apps/api && python -m black .'",
+      "bash -c 'cd apps/api && python -m isort .'",
+      "bash -c 'cd apps/api && python -m flake8 .'"
     ]
   }
 }
