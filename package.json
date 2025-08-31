@@ -9,7 +9,9 @@
     "test": "turbo test",
     "typecheck": "turbo typecheck",
     "clean": "turbo clean",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "migrate": "source .venv/bin/activate && cd apps/api && PYTHONPATH=../.. alembic upgrade head",
+    "migrate:create": "source .venv/bin/activate && cd apps/api && PYTHONPATH=../.. alembic revision --autogenerate"
   },
   "devDependencies": {
     "turbo": "^2.0.0",

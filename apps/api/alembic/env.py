@@ -6,10 +6,10 @@ from alembic import context
 from dotenv import load_dotenv
 from sqlalchemy import engine_from_config, pool
 
-# Add the parent directory to the Python path so we can import our models
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+# Add the root directory to the Python path so we can import our models
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
-from ..database import Base  # noqa: E402
+from apps.api.database import Base  # noqa: E402
 
 # Load environment variables from the root directory
 env_path = os.path.join(
@@ -22,7 +22,10 @@ load_dotenv(env_path)
 config = context.config
 
 # Set the SQLAlchemy URL from environment variable
-config.set_main_option("sqlalchemy.url", os.getenv("POSTGRES_URL_NON_POOLING"))
+database_url = os.getenv("POSTGRES_URL_NON_POOLING")
+if database_url and database_url.startswith("postgres://"):
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+config.set_main_option("sqlalchemy.url", database_url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
