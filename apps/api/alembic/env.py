@@ -10,6 +10,7 @@ from sqlalchemy import engine_from_config, pool
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
 from apps.api.database import Base  # noqa: E402
+from apps.api.models import base, note  # noqa: E402, F401
 
 # Load environment variables from the root directory
 env_path = os.path.join(
@@ -35,6 +36,7 @@ if config.config_file_name is not None:
 # add your model's MetaData object here
 # for 'autogenerate' support
 target_metadata = Base.metadata
+
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
