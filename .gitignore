@@ -211,3 +211,21 @@ node_modules/
 .npm/
 .eslintcache
 .pnpmrc
+
+
+# Environment variables file
+.env.local
+.env.*.local
+
+# TurboRepo
+.turbo/
+.cache/
+.next/
+.out/
+.nuxt/
+
+# Pre commit hooks and husky
+.pre-commit-config.yaml
+.pre-commit/
+.husky
+.husky/_/

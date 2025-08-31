@@ -3,15 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "py:install": "uv sync",
-    "py:dev": "uv run uvicorn src.app:app --reload --host 0.0.0.0 --port 8000",
-    "py:test": "uv run pytest tests/ -v",
-    "py:lint": "uv run flake8 api/",
-    "py:typecheck": "uv run mypy api/",
+    "py:install": "export PATH=\"$HOME/.local/bin:$PATH\" && uv sync",
+    "py:dev": "export PATH=\"$HOME/.local/bin:$PATH\" && uv run uvicorn src.app:app --reload --host 0.0.0.0 --port 8000",
+    "py:test": "export PATH=\"$HOME/.local/bin:$PATH\" && uv run pytest tests/ -v",
+    "py:lint": "export PATH=\"$HOME/.local/bin:$PATH\" && uv run flake8 src/ tests/",
+    "py:lint:fix": "export PATH=\"$HOME/.local/bin:$PATH\" && uv run black src/ tests/ && uv run isort src/ tests/",
+    "py:typecheck": "export PATH=\"$HOME/.local/bin:$PATH\" && uv run mypy src/",
     "build": "echo 'Python build complete'",
     "dev": "pnpm py:dev",
     "test": "pnpm py:test",
     "lint": "pnpm py:lint",
+    "lint:fix": "pnpm py:lint:fix",
     "typecheck": "pnpm py:typecheck"
   }
 }
