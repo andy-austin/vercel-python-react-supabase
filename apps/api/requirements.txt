@@ -5,6 +5,12 @@ supabase>=2.0.0
 python-dotenv>=1.0.0
 pydantic>=2.0.0
 
+# Database & ORM
+sqlalchemy>=2.0.0
+alembic>=1.13.0
+psycopg2-binary>=2.9.0
+asyncpg>=0.29.0
+
 # Development dependencies
 black>=24.0.0
 isort>=5.13.0
