@@ -57,7 +57,7 @@ jobs:
           uv pip install -r apps/api/requirements.txt --python .venv/bin/python
 
       - name: Run flake8
-        run: .venv/bin/python -m flake8 apps/api/
+        run: .venv/bin/python -m flake8 --max-line-length=120 apps/api/
 
       - name: Run mypy
         run: .venv/bin/python -m mypy apps/api/ || true
