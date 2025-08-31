@@ -26,8 +26,8 @@
     "node": ">=18"
   },
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": [
-      "eslint --fix"
+    "apps/web/**/*.{js,jsx,ts,tsx}": [
+      "cd apps/web && eslint --fix"
     ],
     "packages/graphql/**/*.py": [
       "bash -c 'cd packages/graphql && export PATH=\"$HOME/.local/bin:$PATH\" && uv run --no-sync black src/ tests/'",

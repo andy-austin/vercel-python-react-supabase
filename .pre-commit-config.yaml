@@ -1,0 +1,84 @@
+repos:
+  # Python formatting and linting
+  - repo: https://github.com/psf/black
+    rev: 24.10.0
+    hooks:
+      - id: black
+        files: ^packages/graphql/(src|tests)/.*\.py$
+        language_version: python3.11
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        files: ^packages/graphql/(src|tests)/.*\.py$
+        args: ["--profile", "black"]
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.1.1
+    hooks:
+      - id: flake8
+        files: ^packages/graphql/(src|tests)/.*\.py$
+        additional_dependencies: [flake8-black, flake8-isort]
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.13.0
+    hooks:
+      - id: mypy
+        files: ^packages/graphql/src/.*\.py$
+        additional_dependencies: [types-all]
+        args: [--config-file=packages/graphql/pyproject.toml]
+
+  # TypeScript/JavaScript linting
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v9.14.0
+    hooks:
+      - id: eslint
+        files: \.(js|jsx|ts|tsx)$
+        exclude: node_modules/
+        types: [file]
+        additional_dependencies:
+          - eslint@8.57.1
+          - '@typescript-eslint/eslint-plugin@6.21.0'
+          - '@typescript-eslint/parser@6.21.0'
+          - 'eslint-plugin-react@7.37.2'
+          - 'eslint-plugin-react-hooks@4.6.2'
+          - 'eslint-config-next@14.2.18'
+
+  # General file formatting
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: \.(md|svg)$
+      - id: end-of-file-fixer
+        exclude: \.(md|svg)$
+      - id: check-yaml
+      - id: check-json
+      - id: check-toml
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: mixed-line-ending
+        args: ['--fix=lf']
+
+  # Markdown and documentation
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.42.0
+    hooks:
+      - id: markdownlint
+        args: ['--fix']
+        exclude: node_modules/
+
+# Configuration
+ci:
+  autofix_commit_msg: |
+    [pre-commit.ci] auto fixes from pre-commit hooks
+
+    for more information, see https://pre-commit.ci
+  autofix_prs: true
+  autoupdate_branch: ''
+  autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
+  autoupdate_schedule: weekly
+  skip: []
+  submodules: false
