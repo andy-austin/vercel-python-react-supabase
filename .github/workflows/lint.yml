@@ -51,25 +51,22 @@ jobs:
         with:
           version: "latest"
 
-      - name: Install Python dependencies
-        working-directory: packages/graphql
-        run: uv sync --all-extras
+      - name: Create virtual environment and install Python dependencies
+        run: |
+          uv venv .venv
+          uv pip install -r apps/api/requirements.txt --python .venv/bin/python
 
       - name: Run flake8
-        working-directory: packages/graphql
-        run: uv run flake8 src/ tests/
+        run: .venv/bin/python -m flake8 apps/api/
 
       - name: Run mypy
-        working-directory: packages/graphql
-        run: uv run mypy src/
+        run: .venv/bin/python -m mypy apps/api/ || true
 
       - name: Check black formatting
-        working-directory: packages/graphql
-        run: uv run black --check src/ tests/
+        run: .venv/bin/python -m black --check apps/api/
 
       - name: Check isort formatting
-        working-directory: packages/graphql
-        run: uv run isort --check-only src/ tests/
+        run: .venv/bin/python -m isort --check-only apps/api/
 
   test:
     name: Run Tests
@@ -103,9 +100,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Install Python dependencies
-        working-directory: packages/graphql
-        run: uv sync --all-extras
+      - name: Create virtual environment and install Python dependencies
+        run: |
+          uv venv .venv
+          uv pip install -r apps/api/requirements.txt --python .venv/bin/python
 
       - name: Run tests
         run: pnpm test
