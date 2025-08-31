@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from strawberry.fastapi import GraphQLRouter
 
-from schema import schema
+from apps.api.schema import schema
 
 # Create FastAPI app
 app = FastAPI()
