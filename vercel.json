@@ -12,7 +12,7 @@
   ],
   "routes": [
     {
-      "src": "/api/graphql(?:/.*)?",
+      "src": "/api/(.*)",
       "dest": "/apps/api/index.py"
     },
     {

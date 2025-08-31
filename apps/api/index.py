@@ -4,10 +4,8 @@ from strawberry.fastapi import GraphQLRouter
 
 from apps.api.schema import schema
 
-# Create FastAPI app
-app = FastAPI()
+app = FastAPI(root_path="/api")
 
-# Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -16,11 +14,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Create GraphQL router
-graphql_app = GraphQLRouter(schema)
+router = GraphQLRouter(schema, path="/graphql")
+app.include_router(router)
 
-# Include GraphQL router
-app.include_router(graphql_app, prefix="/graphql")
 
-# Export handler for Vercel
-handler = app
+@app.get("/health")
+def health():
+    return {"ok": True}
