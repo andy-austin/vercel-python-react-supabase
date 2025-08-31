@@ -1,20 +1,23 @@
 {
-  "buildCommand": "pnpm build",
-  "outputDirectory": "apps/web/.next",
-  "installCommand": "pnpm install",
-  "functions": {
-    "apps/api/*.py": {
-      "runtime": "python3.11"
-    }
-  },
-  "rewrites": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/api/graphql",
-      "destination": "/apps/api/index"
+      "src": "apps/web/package.json",
+      "use": "@vercel/next"
     },
     {
-      "source": "/api/graphql/(.*)",
-      "destination": "/apps/api/index"
+      "src": "apps/api/index.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/graphql/(.*)",
+      "dest": "/apps/api/index.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/apps/web/$1"
     }
   ]
 }

@@ -3,16 +3,18 @@ const nextConfig = {
   transpilePackages: ['shared', 'db'],
   async rewrites() {
     const isDev = process.env.NODE_ENV === 'development'
-    const apiUrl = isDev
-      ? 'http://localhost:8000'
-      : process.env.API_DOMAIN || 'https://your-api-domain.vercel.app'
-
-    return [
-      {
-        source: '/api/graphql/:path*',
-        destination: `${apiUrl}/graphql/:path*`
-      }
-    ]
+    
+    if (isDev) {
+      return [
+        {
+          source: '/api/graphql/:path*',
+          destination: 'http://localhost:8000/graphql/:path*'
+        }
+      ]
+    }
+    
+    // In production, Vercel handles API routes via vercel.json
+    return []
   }
 }
 
