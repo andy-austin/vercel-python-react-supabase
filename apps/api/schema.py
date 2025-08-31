@@ -1,10 +1,11 @@
-import strawberry
 from typing import List, Optional
+
+import strawberry
 from sqlalchemy.orm import Session
 
-from .types.user import User, CreateUserInput, UpdateUserInput
 from .database import get_db
 from .resolvers import user as user_resolver
+from .types.user import CreateUserInput, UpdateUserInput, User
 
 
 @strawberry.type
@@ -25,7 +26,7 @@ class Query:
                     full_name=user.full_name,
                     is_active=user.is_active,
                     created_at=user.created_at,
-                    updated_at=user.updated_at
+                    updated_at=user.updated_at,
                 )
                 for user in users
             ]
@@ -45,7 +46,7 @@ class Query:
                 full_name=user.full_name,
                 is_active=user.is_active,
                 created_at=user.created_at,
-                updated_at=user.updated_at
+                updated_at=user.updated_at,
             )
         finally:
             db.close()
@@ -64,7 +65,7 @@ class Mutation:
                 full_name=user.full_name,
                 is_active=user.is_active,
                 created_at=user.created_at,
-                updated_at=user.updated_at
+                updated_at=user.updated_at,
             )
         finally:
             db.close()
@@ -82,7 +83,7 @@ class Mutation:
                 full_name=user.full_name,
                 is_active=user.is_active,
                 created_at=user.created_at,
-                updated_at=user.updated_at
+                updated_at=user.updated_at,
             )
         finally:
             db.close()
