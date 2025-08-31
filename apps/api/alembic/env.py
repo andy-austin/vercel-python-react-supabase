@@ -2,22 +2,20 @@ import os
 import sys
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
-
 from alembic import context
 from dotenv import load_dotenv
-
-# Load environment variables from the root directory
-env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), ".env.local")
-load_dotenv(env_path)
+from sqlalchemy import engine_from_config, pool
 
 # Add the parent directory to the Python path so we can import our models
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-# Import the database base and models
-from ..database import Base
-from ..models.user import User  # We'll create this next
+from ..database import Base  # noqa: E402
+
+# Load environment variables from the root directory
+env_path = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(__file__))), ".env.local"
+)
+load_dotenv(env_path)
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -79,9 +77,7 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()

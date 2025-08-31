@@ -32,7 +32,7 @@
     "apps/api/**/*.py": [
       "bash -c 'cd apps/api && python -m black .'",
       "bash -c 'cd apps/api && python -m isort .'",
-      "bash -c 'cd apps/api && python -m flake8 .'"
+      "bash -c 'cd apps/api && python -m flake8 --max-line-length=120 .'"
     ]
   }
 }
