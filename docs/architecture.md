@@ -41,7 +41,7 @@ vercel-python-react-supabase/
 
 ### Database
 
-- **Service**: Supabase PostgreSQL
+- **Service**: Supabase PostgresSQL
 - **Frontend Client**: @supabase/supabase-js (in apps/web)
 - **Backend ORM**: SQLAlchemy with Alembic migrations (in apps/api)
 - **Environment**: Requires `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`
@@ -51,6 +51,6 @@ vercel-python-react-supabase/
 1. Next.js frontend makes GraphQL requests to `/api/graphql`
 2. Vercel routes requests to Python serverless function at `apps/api/index.py`
 3. FastAPI + Strawberry processes GraphQL queries using resolvers
-4. Python API uses SQLAlchemy models to interact with Supabase PostgreSQL
+4. Python API uses SQLAlchemy models to interact with Supabase PostgresSQL
 5. Frontend can also directly query Supabase for simple operations
 6. TypeScript types ensure type safety across frontend and database
