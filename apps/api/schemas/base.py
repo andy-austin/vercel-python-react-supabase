@@ -1,6 +1,5 @@
 from typing import Any, Generic, List, Optional, Type, TypeVar
 
-import strawberry
 from sqlalchemy.orm import Session
 
 from ..database import get_db
@@ -23,10 +22,10 @@ class BaseSchemaGenerator(
         """Convert SQLAlchemy model instance to GraphQL type"""
         model_dict = {}
 
-        # Get all GraphQL type fields
-        graphql_fields = strawberry.fields(cls.graphql_type)
+        # Get all GraphQL type fields using __annotations__
+        graphql_fields = getattr(cls.graphql_type, "__annotations__", {})
 
-        for field_name, field_info in graphql_fields.items():
+        for field_name in graphql_fields.keys():
             if hasattr(model_instance, field_name):
                 model_dict[field_name] = getattr(model_instance, field_name)
 

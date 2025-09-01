@@ -16,20 +16,7 @@ jobs:
         node-version: [18, 20]
         python-version: ["3.11"]
     
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_USER: postgres
-          POSTGRES_DB: test_db
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
+# No database service needed - tests use mocks
 
     steps:
       - name: Checkout code
@@ -68,16 +55,10 @@ jobs:
       - name: Set up environment variables
         run: |
           cat > .env.local << EOF
-          POSTGRES_URL_NON_POOLING=postgresql://postgres:postgres@localhost:5432/test_db
+          POSTGRES_URL_NON_POOLING=postgresql://test:test@localhost:5432/test_db
           NEXT_PUBLIC_SUPABASE_URL=https://test.supabase.co
           NEXT_PUBLIC_SUPABASE_ANON_KEY=test-anon-key
           EOF
-
-      - name: Run database migrations
-        run: |
-          source .venv/bin/activate
-          cd apps/api
-          PYTHONPATH=../.. alembic upgrade head
 
       - name: Run linting
         run: pnpm lint

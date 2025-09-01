@@ -34,6 +34,7 @@
 - **Type generation** - Database schema automatically generates TypeScript types
 - **Monorepo efficiency** - Share code between frontend and backend seamlessly
 - **Modern tooling** - Latest versions of React, FastAPI, and development tools
+- **Comprehensive testing** - Unit tests, integration tests, and CI/CD ready
 
 ## 🚀 Quick Start
 
