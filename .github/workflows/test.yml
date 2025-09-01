@@ -67,9 +67,11 @@ jobs:
 
       - name: Set up environment variables
         run: |
-          echo "POSTGRES_URL_NON_POOLING=postgresql://postgres:postgres@localhost:5432/test_db" >> $GITHUB_ENV
-          echo "NEXT_PUBLIC_SUPABASE_URL=https://test.supabase.co" >> $GITHUB_ENV
-          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=test-anon-key" >> $GITHUB_ENV
+          cat > .env.local << EOF
+          POSTGRES_URL_NON_POOLING=postgresql://postgres:postgres@localhost:5432/test_db
+          NEXT_PUBLIC_SUPABASE_URL=https://test.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY=test-anon-key
+          EOF
 
       - name: Run database migrations
         run: |
