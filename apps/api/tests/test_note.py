@@ -1,11 +1,18 @@
+import os
 from datetime import datetime, timezone
 from unittest.mock import MagicMock, patch
 
 import pytest
 from fastapi.testclient import TestClient
 
-from apps.api.index import app
-from apps.api.models.note import Note as NoteModel
+# Mock environment variable before any imports
+os.environ["POSTGRES_URL_NON_POOLING"] = "postgresql://test:test@localhost:5432/test_db"
+
+# Mock database engine creation to prevent actual connection
+with patch("apps.api.database.create_engine") as mock_create_engine:
+    mock_create_engine.return_value = MagicMock()
+    from apps.api.index import app
+    from apps.api.models.note import Note as NoteModel
 
 
 @pytest.fixture

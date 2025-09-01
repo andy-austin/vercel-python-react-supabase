@@ -226,6 +226,9 @@ node_modules/
 .out/
 .nuxt/
 
+# TypeScript build cache
+*.tsbuildinfo
+
 # Pre commit hooks and husky
 .pre-commit/
 .husky
