@@ -14,16 +14,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8.15.6
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.15.6
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -67,43 +67,3 @@ jobs:
 
       - name: Check isort formatting
         run: .venv/bin/python -m isort --check-only --profile black apps/api/
-
-  test:
-    name: Run Tests
-    runs-on: ubuntu-latest
-    needs: [ lint-typescript, lint-python ]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8.15.6
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'pnpm'
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v1
-        with:
-          version: "latest"
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Create virtual environment and install Python dependencies
-        run: |
-          uv venv .venv
-          uv pip install -r apps/api/requirements.txt --python .venv/bin/python
-
-      - name: Run tests
-        run: pnpm test

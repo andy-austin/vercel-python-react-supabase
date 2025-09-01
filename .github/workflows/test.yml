@@ -10,14 +10,12 @@ jobs:
   test:
     name: Run Tests
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
         node-version: [18, 20]
         python-version: ["3.11"]
     
-# No database service needed - tests use mocks
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -27,15 +25,15 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 8.15.6
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
 
       - name: Run setup script
         run: |
@@ -45,23 +43,10 @@ jobs:
       - name: Set up environment variables
         run: |
           cat > .env.local << EOF
-          POSTGRES_URL_NON_POOLING=postgresql://test:test@localhost:5432/test_db
-          NEXT_PUBLIC_SUPABASE_URL=https://test.supabase.co
-          NEXT_PUBLIC_SUPABASE_ANON_KEY=test-anon-key
+          POSTGRES_URL_NON_POOLING=__test__
+          NEXT_PUBLIC_SUPABASE_URL=__test__
+          NEXT_PUBLIC_SUPABASE_ANON_KEY=__test__
           EOF
-
-      - name: Run type checking
-        run: pnpm typecheck
 
       - name: Run tests
         run: pnpm test
-
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: test-results-node${{ matrix.node-version }}-python${{ matrix.python-version }}
-          path: |
-            apps/web/coverage/
-            apps/api/htmlcov/
-          retention-days: 30
