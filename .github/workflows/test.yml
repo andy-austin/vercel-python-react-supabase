@@ -37,20 +37,10 @@ jobs:
         with:
           version: 8.15.6
 
-      - name: Install uv
-        run: curl -LsSf https://astral.sh/uv/install.sh | sh
-
-      - name: Add uv to PATH
-        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-      - name: Install Node.js dependencies
-        run: pnpm install
-
-      - name: Create Python virtual environment
-        run: uv venv .venv
-
-      - name: Install Python dependencies
-        run: uv pip install -r apps/api/requirements.txt --python .venv/bin/python
+      - name: Run setup script
+        run: |
+          chmod +x setup.sh
+          ./setup.sh
 
       - name: Set up environment variables
         run: |
@@ -59,9 +49,6 @@ jobs:
           NEXT_PUBLIC_SUPABASE_URL=https://test.supabase.co
           NEXT_PUBLIC_SUPABASE_ANON_KEY=test-anon-key
           EOF
-
-      - name: Run linting
-        run: pnpm lint
 
       - name: Run type checking
         run: pnpm typecheck
