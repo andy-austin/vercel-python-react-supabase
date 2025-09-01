@@ -231,3 +231,7 @@ node_modules/
 .husky
 .husky/_/
 .vercel
+
+# Local SQLite database files
+*.sqlite3
+*.db
