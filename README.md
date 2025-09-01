@@ -12,6 +12,7 @@
 - **Deployment**: Vercel with hybrid Next.js + Python serverless functions
 - **Monorepo**: pnpm workspaces with Turbo build orchestration
 - **Type Safety**: End-to-end TypeScript integration
+- **Testing**: Jest for React components, pytest for Python API
 
 ## 💡 Why This Template for MVP Development?
 
@@ -20,7 +21,7 @@
 ### Speed to Market
 - **Zero infrastructure setup** - Deploy instantly to Vercel with PostgreSQL database
 - **Pre-configured stack** - No decision paralysis on technology choices
-- **Built-in best practices** - Type safety, linting, and testing already configured
+- **Built-in best practices** - Type safety, linting, testing, and pre-commit hooks configured
 - **GraphQL API** - Flexible data fetching without over/under-fetching
 
 ### Cost-Effective Validation
@@ -135,7 +136,7 @@ pnpm dev          # Start all services
 pnpm build        # Build all packages and apps
 pnpm lint         # Lint all code (ESLint + flake8)
 pnpm lint:fix     # Fix linting issues (ESLint --fix + black + isort)
-pnpm test         # Run all tests
+pnpm test         # Run all tests (Jest + pytest)
 pnpm typecheck    # Run TypeScript and mypy type checking
 pnpm clean        # Clean build artifacts
 ```
@@ -145,10 +146,15 @@ pnpm clean        # Clean build artifacts
 ```bash
 # Next.js (apps/web)
 cd apps/web
+pnpm test         # Run Jest tests
+pnpm test:watch   # Run tests in watch mode
+pnpm test:coverage # Run tests with coverage report
 pnpm type-check   # TypeScript checking
 
 # Python API (apps/api)
 cd apps/api
+pnpm test         # Run pytest tests
+pnpm test:coverage # Run tests with coverage report
 # Activate virtual environment first:
 source ../../.venv/bin/activate
 python3 -m uvicorn index:handler --reload --host 0.0.0.0 --port 8000
@@ -195,7 +201,7 @@ Detailed documentation is available in the [`docs/`](./docs/) folder:
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Run tests and linting (`pnpm lint` and `pnpm test`)
+4. Run tests and linting (`pnpm test` and `pnpm lint`)
 5. Pre-commit hooks will automatically run on commit
 6. Submit a pull request
 
