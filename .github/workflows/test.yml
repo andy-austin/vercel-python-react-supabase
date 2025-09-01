@@ -84,7 +84,9 @@ jobs:
         run: pnpm typecheck
 
       - name: Run tests
-        run: pnpm test
+        run: |
+          source .venv/bin/activate
+          pnpm test
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
