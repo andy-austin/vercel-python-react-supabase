@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "cd ../.. && python3 -m uvicorn apps.api.index:app --reload --host 0.0.0.0 --port 8000",
     "build": "echo 'API build complete'",
-    "test": "cd ../.. && python -m pytest apps/api/tests/",
+    "test": "cd ../.. && source .venv/bin/activate && python -m pytest apps/api/tests/",
     "test:watch": "cd ../.. && python -m pytest apps/api/tests/ --watch",
     "test:coverage": "cd ../.. && python -m pytest apps/api/tests/ --cov=apps.api --cov-report=html"
   },
